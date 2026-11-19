@@ -48,7 +48,7 @@ module "oidc" {
 }
 ```
 
-`domain` accepts `global` or `org:<uuid>`. The module also accepts `organization_id` and formats it as `org:<uuid>`. It rejects `organization:<uuid>`, a bare UUID, and other domain forms. Custom role names must not collide with built-in role names. Built-in roles can be mapping targets without being declared in `roles`.
+`domain` accepts `global` or `org:<uuid>`. The module also accepts `organization_id` and formats it as `org:<uuid>`. It rejects `organization:<uuid>`, a bare UUID, and other domain forms. The module requires custom role names to be non-empty, but it does not check whether they match built-in role names. Built-in roles can be mapping targets without being declared in `roles`.
 
 Permissions with the `organization.*` prefix apply only in the organization where the role is mapped. In this example, `role-inspector` is mapped with `organization_id`; the global mapping uses the existing built-in `security-auditor` role instead.
 
@@ -87,8 +87,8 @@ The provider has no schema defaults for optional OIDC settings. If omitted, the 
 | --- | --- |
 | `provider_id` | OIDC provider ID. |
 | `provider_slug` | OIDC provider slug. |
-| `roles` | Map of custom role name to ID, name, `built_in`, and `scope`. |
-| `mappings` | Map of mapping key to ID, provider ID, external group, role, domain, and enabled state. |
+| `roles` | Map keyed by custom role name; each value contains `id`, `name`, `built_in`, and `scope`. |
+| `mappings` | Map keyed by the mappings input key; each value contains `id`, `provider_id`, `external_group`, `role`, normalized `domain`, and `enabled`. |
 
 ## Importing existing resources
 
@@ -118,4 +118,4 @@ Install TFLint separately before running the final command. The tests use Terraf
 
 ## License
 
-A license will be added before publication.
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE).
